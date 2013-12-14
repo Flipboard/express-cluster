@@ -1,0 +1,30 @@
+{
+  "name": "express-cluster",
+  "version": "0.0.0",
+  "description": "Simple drop-in for express apps to spawn multiple processes",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Flipboard/express-cluster.git"
+  },
+  "scripts": {
+    "prepublish": "coffee -o lib/ -c src/index.coffee"
+  },
+  "keywords": [
+    "cluster",
+    "express",
+    "http",
+    "https",
+    "net",
+    "listener"
+  ],
+  "author": "Eden Li <eli@flipboard.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/Flipboard/express-cluster/issues"
+  },
+  "homepage": "https://github.com/Flipboard/express-cluster",
+  "devDependencies": {
+    "coffee-script": "~1.6.3"
+  }
+}
