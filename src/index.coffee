@@ -25,8 +25,14 @@ master = (config) ->
   cluster.on "exit", (worker, code, signal) ->
     if config.verbose
       console.log "#{worker.process.pid} died with code #{code}, restarting"
+    idx = workers.indexOf worker
+    if idx > -1
+      workers.splice idx, 1
     if respawn
-      cluster.fork()
+      worker = cluster.fork()
+      if typeof config.workerListener is "function"
+        worker.on "message", config.workerListener
+      workers.push worker
 
   process.on "SIGQUIT", ->
     if config.verbose
