@@ -30,4 +30,10 @@ have. You can (and should) configure this parameter for your environments.
         count: 5,       // number of workers to spawn: defaults to CPU core count
         respawn: true,  // respawn process on exit: defaults to true
         verbose: false  // log what happens to console: defaults to false
+
+	// Attach the given function to each spawned worker. The function will
+	// be bound to the worker that sent the message so you can setup a two
+	// way message bus if you please. See examples/messaging.js for an
+	// example.
+	workerListener: function(){}
     }

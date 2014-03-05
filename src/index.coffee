@@ -17,7 +17,10 @@ master = (config) ->
   if config.verbose
     console.log "Master started on pid #{process.pid}, forking #{workerCount} processes"
   for i in [0 .. workerCount - 1]
-    workers.push cluster.fork()
+    worker = cluster.fork()
+    if typeof config.workerListener is "function"
+      worker.on "message", config.workerListener
+    workers.push worker
 
   cluster.on "exit", (worker, code, signal) ->
     if config.verbose
