@@ -24,7 +24,8 @@ master = (config) ->
 
   cluster.on "exit", (worker, code, signal) ->
     if config.verbose
-      console.log "#{worker.process.pid} died with code #{code}, restarting"
+      console.log "#{worker.process.pid} died with code #{code}",
+        if respawn then "restarting" else ""
     idx = workers.indexOf worker
     if idx > -1
       workers.splice idx, 1
@@ -35,6 +36,7 @@ master = (config) ->
       workers.push worker
 
   process.on "SIGQUIT", ->
+    respawn = false
     if config.verbose
       console.log "QUIT received, will exit once all workers have finished current requests"
     for worker in workers
