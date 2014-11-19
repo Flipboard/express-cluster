@@ -46,8 +46,8 @@ master = (config) ->
 # Single worker process: attach close and message handlers
 #
 
-worker = (fn, cluster) ->
-  server = fn(cluster)
+worker = (fn, worker) ->
+  server = fn(worker)
 
   if not server
     return
@@ -67,4 +67,4 @@ module.exports = (fn, config={}) ->
   if cluster.isMaster
     master config
   else
-    worker fn , cluster
+    worker fn , cluster.worker
