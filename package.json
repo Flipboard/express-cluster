@@ -1,6 +1,6 @@
 {
   "name": "express-cluster",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple drop-in for express apps to spawn multiple processes",
   "main": "lib/index.js",
   "repository": {
@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/Flipboard/express-cluster",
   "devDependencies": {
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.8.0"
   }
 }
