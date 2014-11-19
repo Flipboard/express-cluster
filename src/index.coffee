@@ -67,4 +67,4 @@ module.exports = (fn, config={}) ->
   if cluster.isMaster
     master config
   else
-    worker fn , cluster.worker
+    worker fn, cluster.worker
