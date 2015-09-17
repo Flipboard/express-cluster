@@ -63,7 +63,15 @@ worker = (fn, worker) ->
         # Stop accepting new connections
         server.close()
 
-module.exports = (fn, config={}) ->
+module.exports = (arg0, arg1) ->
+  fn = ->
+  config = {}
+  if typeof arg0 is 'function'
+    fn = arg0
+    config = arg1 || config
+  else if typeof arg1 is 'function'
+    fn = arg1
+    config = arg0 || config
   if cluster.isMaster
     master config
   else
