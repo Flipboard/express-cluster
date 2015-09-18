@@ -1,6 +1,5 @@
 cluster = require "cluster"
 os = require "os"
-http = require "http"
 
 #
 # Master process: Fork processes and hook cleanup signals as required.
