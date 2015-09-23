@@ -23,7 +23,7 @@ master = (config) ->
 
   cluster.on "exit", (worker, code, signal) ->
     if config.verbose
-      console.log "#{worker.process.pid} died with code #{code}",
+      console.log "#{worker.process.pid} died with #{signal or "exit code #{code}"}",
         if respawn then "restarting" else ""
     idx = workers.indexOf worker
     if idx > -1
