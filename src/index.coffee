@@ -6,7 +6,13 @@ os = require "os"
 #
 
 master = (config) ->
-  workerCount = config.count ? parseInt(process.env.WORKER_COUNT) or os.cpus().length
+  # determine count first from config then from the environment var WORKER_COUNT
+  # if either parse incorrectly, NaN is returned. We require the count to be
+  # greater than zero, so we fall back to CPU count if anything is out of the
+  # ordinary
+  count = parseInt(config.count or process.env.WORKER_COUNT)
+  workerCount = if count > 0 then count else os.cpus().length
+
   respawn =
     if typeof config.respawn is "undefined"
       true
@@ -15,7 +21,7 @@ master = (config) ->
   workers = []
   if config.verbose
     console.log "Master started on pid #{process.pid}, forking #{workerCount} processes"
-  for i in [0 .. workerCount - 1]
+  for i in [0 ... workerCount]
     worker = cluster.fork()
     if typeof config.workerListener is "function"
       worker.on "message", config.workerListener
@@ -23,7 +29,7 @@ master = (config) ->
 
   cluster.on "exit", (worker, code, signal) ->
     if config.verbose
-      console.log "#{worker.process.pid} died with code #{code}",
+      console.log "#{worker.process.pid} died with #{signal or "exit code #{code}"}",
         if respawn then "restarting" else ""
     idx = workers.indexOf worker
     if idx > -1
