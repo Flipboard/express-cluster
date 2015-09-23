@@ -8,8 +8,9 @@ This works with any EventListener that emits the `"close"` event and has a
 `close()` method. If it's a server object (e.g. an express app, `net.Server` or
 `http.Server`, ensure that you've invoked `listen` before returning it).
 
-By default the module will spawn ''n'' processes where ''n'' is the number of
-cores you have. You should configure this parameter for your environment.
+By default the module will spawn `os.cpus().length` workers. You should
+configure this parameter for your workloads. You should pick the right number
+for your server based on testing.
 
 ## Synopsis
 
@@ -46,7 +47,7 @@ This object should contain zero or more of these keys. Any other key/values are
 ignored.
 
     {
-        count: 5,       // number of workers to spawn: defaults to CPU core count
+        count: 5,       // number of workers: defaults to os.cpus().length
         respawn: true,  // respawn process on exit: defaults to true
         verbose: false, // log what happens to console: defaults to false
 
