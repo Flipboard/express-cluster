@@ -55,5 +55,9 @@ ignored.
         // be bound to the worker that sent the message so you can setup a two
         // way message bus if you please. See examples/messaging.js for an
         // example.
-        workerListener: function(){}
+        workerListener: function(){},
+
+        // When in verbose mode, use a following writable stream (supports
+        // the write function) instead of the default console
+        outputStream: writableStream
     }

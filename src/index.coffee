@@ -18,9 +18,16 @@ master = (config) ->
       true
     else
       Boolean config.respawn
+
+  outputStream =
+    if config.outputStream and typeof config.outputStream.write is "function"
+      config.outputStream.write
+    else
+      console.log
+
   workers = []
   if config.verbose
-    console.log "Master started on pid #{process.pid}, forking #{workerCount} processes"
+    outputStream "Master started on pid #{process.pid}, forking #{workerCount} processes"
   for i in [0 ... workerCount]
     worker = cluster.fork()
     if typeof config.workerListener is "function"
@@ -29,8 +36,8 @@ master = (config) ->
 
   cluster.on "exit", (worker, code, signal) ->
     if config.verbose
-      console.log "#{worker.process.pid} died with #{signal or "exit code #{code}"}",
-        if respawn then "restarting" else ""
+      outputStream "#{worker.process.pid} died with #{signal or "exit code #{code}"}" +
+        if respawn then ", restarting" else ""
     idx = workers.indexOf worker
     if idx > -1
       workers.splice idx, 1
@@ -43,7 +50,7 @@ master = (config) ->
   process.on "SIGQUIT", ->
     respawn = false
     if config.verbose
-      console.log "QUIT received, will exit once all workers have finished current requests"
+      outputStream "QUIT received, will exit once all workers have finished current requests"
     for worker in workers
       worker.send "quit"
 
